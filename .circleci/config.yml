@@ -135,12 +135,20 @@ jobs:
     resource_class: medium+
     parallelism: 8
     steps:
+      - *mount_workspace
       - *setup_remote_docker
       - *set_git_hash
       - *publish_images_local
       - *docker_login_gcp
       - *publish_images_gcp
       - *save_working_directory
+
+  release:
+    <<: *container_config
+    resource_class: medium+
+    parallelism: 8
+    steps:
+      - *mount_workspace
   
 workflows:
   build:
