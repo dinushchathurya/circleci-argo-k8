@@ -155,13 +155,10 @@ jobs:
 workflows:
   build:
     jobs:
-      - compile:
-          <<: *refactor_only
+      - compile
       - test:
-          <<: *refactor_only
           requires:
             - compile
       - build_and_publish_gcp:
-          <<: *refactor_only
           requires:
             - compile
