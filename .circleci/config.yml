@@ -150,7 +150,7 @@ jobs:
     steps:
       - *mount_workspace
       - run : |
-          sed -i 's/\(limarktest/gradle-docker-app\)\(.*\)/\1:'$SHORT_GIT_HASH'/' ./deployment.yaml
+          echo "update manifest"
   
   argocd_release:
     <<: *container_config
@@ -158,6 +158,8 @@ jobs:
     parallelism: 8
     steps:
       - *mount_workspace
+      - run : |
+          echo "update manifest"
   
 workflows:
   build:
