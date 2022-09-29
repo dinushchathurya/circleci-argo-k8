@@ -65,12 +65,6 @@ references:
     store_test_results:
       path: /target/test-results
 
-  refactor_only: &refactor_only
-    filters:
-      branches:
-        only:
-          - refactor		
-
   setup_remote_docker: &setup_remote_docker
     setup_remote_docker:
       docker_layer_caching: true
@@ -162,3 +156,4 @@ workflows:
       - build_and_publish_gcp:
           requires:
             - compile
+            - test
