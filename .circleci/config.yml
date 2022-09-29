@@ -167,8 +167,6 @@ workflows:
       - build_and_publish_gcp:
           requires:
             - test
-  release:
-    jobs:
       - update_manifest:
           requires:
             - build_and_publish_gcp
