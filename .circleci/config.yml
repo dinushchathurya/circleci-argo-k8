@@ -135,10 +135,6 @@ jobs:
     resource_class: medium+
     parallelism: 8
     steps:
-      - *mount_workspace
-      - *restore_cache
-      - *install_maven
-      - *install_dependencies
       - *setup_remote_docker
       - *set_git_hash
       - *publish_images_local
