@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: gradle-docker-app
+  namespace: gradle-docker-app
+spec:
+  selector:
+    app: gradle-docker-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer

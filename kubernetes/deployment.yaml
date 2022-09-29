@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Namespace
+metadata: 
+  name: gradle-docker-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gradle-docker-app-deployment
+  namespace: gradle-docker-app
+  labels:
+    app: gradle-docker-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gradle-docker-app
+  template:
+    metadata:
+      labels:
+        app: gradle-docker-app
+    spec:
+      containers:
+      - name: gradle-docker-app
+        image: limarktest/gradle-docker-app:latest
+        ports:
+        - containerPort: 80

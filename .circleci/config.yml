@@ -143,7 +143,14 @@ jobs:
       - *publish_images_gcp
       - *save_working_directory
 
-  release:
+  update_manifest:
+    <<: *container_config
+    resource_class: medium+
+    parallelism: 8
+    steps:
+      - *mount_workspace
+  
+  argocd_release:
     <<: *container_config
     resource_class: medium+
     parallelism: 8
@@ -160,3 +167,11 @@ workflows:
       - build_and_publish_gcp:
           requires:
             - test
+  release:
+    jobs:
+      - update_manifest:
+          requires:
+            - build_and_publish_gcp
+      - argocd_release:
+          requires:
+            - update_manifest
