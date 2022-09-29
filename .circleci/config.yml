@@ -155,5 +155,4 @@ workflows:
             - compile
       - build_and_publish_gcp:
           requires:
-            - compile
             - test
