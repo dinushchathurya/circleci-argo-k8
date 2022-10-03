@@ -41,6 +41,16 @@ references:
       root: *working_directory
       paths:
         - .
+  
+  save_workspace: &save_workspace
+    persist_to_workspace:
+      root: .
+      paths:
+        - kubernetes
+  
+  restore_workspace: &restore_workspace
+    attach_workspace:
+      at: /tmp/deploy
 
   mount_workspace: &mount_workspace
     attach_workspace:
@@ -93,6 +103,22 @@ references:
       name: Publish Images GCP
       command: |
         docker push limarktest/gradle-docker-app:$SHORT_GIT_HASH
+  
+  generate_manifest: &generate_manifest
+    run: 
+      name: Generate K8 Manifest
+      command: |
+        set -x
+        source $BASH_ENV
+        sh /tmp/deploy/kubernetes/generate-manifest.sh
+
+  deploy_manifest: &deploy_manifest
+    run: 
+      name: Deploy K8 Manifest
+      command: |
+        set -x
+        source $BASH_ENV
+        sh /tmp/deploy/kubernetes/deploy-manifest.sh
 
 executors:
 
@@ -121,11 +147,11 @@ jobs:
     parallelism: 8
     steps:
       - *mount_workspace
-      - *restore_cache
-      - *install_maven
-      - *install_dependencies
-      - *validate
-      - *compile
+      # - *restore_cache
+      # - *install_maven
+      # - *install_dependencies
+      # - *validate
+      # - *compile
       - *run_test 
       - *store_test_results
       - *save_working_directory  
@@ -135,22 +161,23 @@ jobs:
     resource_class: medium+
     parallelism: 8
     steps:
-      - *mount_workspace
+      - checkout
       - *setup_remote_docker
       - *set_git_hash
       - *publish_images_local
       - *docker_login_gcp
       - *publish_images_gcp
-      - *save_working_directory
+      - *save_workspace
 
   update_manifest:
     <<: *container_config
     resource_class: medium+
     parallelism: 8
     steps:
-      - *mount_workspace
-      - run : |
-          echo "update manifest"
+      # - *set_git_hash
+      # - *restore_workspace
+      # - *generate_manifest
+      # - *deploy_manifest
   
   argocd_release:
     <<: *container_config

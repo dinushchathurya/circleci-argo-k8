@@ -21,7 +21,7 @@ spec:
         app: gradle-docker-app
     spec:
       containers:
-      - name: gradle-docker-app
-        image: limarktest/gradle-docker-app:latest
-        ports:
-        - containerPort: 80
+        - name: gradle-docker-app
+          image: limarktest/gradle-docker-app:latest
+          ports:
+          - containerPort: 80
