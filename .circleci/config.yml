@@ -147,11 +147,11 @@ jobs:
     parallelism: 8
     steps:
       - *mount_workspace
-      # - *restore_cache
-      # - *install_maven
-      # - *install_dependencies
-      # - *validate
-      # - *compile
+      - *restore_cache
+      - *install_maven
+      - *install_dependencies
+      - *validate
+      - *compile
       - *run_test 
       - *store_test_results
       - *save_working_directory  
